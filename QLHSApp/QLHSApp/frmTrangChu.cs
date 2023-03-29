@@ -18,8 +18,10 @@ namespace QLHSApp
 
         private void menuItemGV_Click(object sender, EventArgs e)
         {
+            this.Hide();
             frmGiaoVien g = new frmGiaoVien();
             g.Show();
+            
         }
     }
 }
