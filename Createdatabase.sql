@@ -1,0 +1,146 @@
+/* Đây là Script tạo table và chèn dữ liệu vào table, trước khi chạy script này vui lòng tạo cơ sở dữ liệu QLHS, Không copy dòng này */
+
+
+/* drop table Diem, LoaiDiem, Mon, HocSinh, Lop, GiaoVien;
+go */
+
+use QLHS
+go
+
+CREATE TABLE GiaoVien (
+    MaGV INT PRIMARY KEY,
+    HoGV VARCHAR(50),
+    TenGV VARCHAR(50),
+    NgaySinh DATE,
+    QueQuan VARCHAR(50),
+    SoDT VARCHAR(20)
+);
+
+CREATE TABLE Lop (
+    MaLop INT PRIMARY KEY,
+    TenLop VARCHAR(50),
+    MaGV INT,
+    NamHoc VARCHAR(20),
+    FOREIGN KEY (MaGV) REFERENCES GiaoVien(MaGV)
+);
+
+CREATE TABLE HocSinh (
+    MaHS INT PRIMARY KEY,
+    Ho VARCHAR(50),
+    Ten VARCHAR(50),
+    GioiTinh VARCHAR(10),
+    NgaySinh DATE,
+    MaLop INT,
+    FOREIGN KEY (MaLop) REFERENCES Lop(MaLop)
+);
+
+CREATE TABLE LoaiDiem (
+    MaLoaiDiem INT PRIMARY KEY,
+    Ten VARCHAR(50),
+    HeSo FLOAT,
+    MoTa VARCHAR(255)
+);
+
+CREATE TABLE Mon (
+    MaMon INT PRIMARY KEY,
+    TenMon VARCHAR(50)
+);
+
+CREATE TABLE Diem (
+    MaDiem INT PRIMARY KEY,
+    DiemSo FLOAT,
+    MaHS INT,
+    MaMon INT,
+    MaLoaiDiem INT,
+    FOREIGN KEY (MaHS) REFERENCES HocSinh(MaHS),
+    FOREIGN KEY (MaMon) REFERENCES Mon(MaMon),
+    FOREIGN KEY (MaLoaiDiem) REFERENCES LoaiDiem(MaLoaiDiem)
+);
+
+-- Chèn dữ liệu vào bảng GiaoVien
+INSERT INTO GiaoVien (MaGV, HoGV, TenGV, NgaySinh, QueQuan, SoDT)
+VALUES
+    (1, 'Nguyễn', 'Văn A', '1980-05-12', 'Hà Nội', '0987654321'),
+    (2, 'Trần', 'Thị B', '1982-02-28', 'Hải Phòng', '0123456789'),
+    (3, 'Lê', 'Quốc C', '1985-09-15', 'Hà Tĩnh', '0909090909'),
+    (4, 'Phạm', 'Hồng D', '1987-11-02', 'Hưng Yên', '0912345678'),
+    (5, 'Vũ', 'Thị E', '1983-04-22', 'Nam Định', '0987123456'),
+    (6, 'Nguyễn', 'Đình F', '1984-08-10', 'Bắc Ninh', '0905123456'),
+    (7, 'Trần', 'Thị G', '1981-03-25', 'Thanh Hóa', '0123456789'),
+    (8, 'Lê', 'Quang H', '1979-06-11', 'Nghệ An', '0912345678'),
+    (9, 'Phạm', 'Hồng I', '1986-10-18', 'Hải Dương', '0987123456'),
+    (10, 'Vũ', 'Thị K', '1982-12-27', 'Hà Nội', '0905123456');
+
+-- Chèn dữ liệu vào bảng Lop
+INSERT INTO Lop (MaLop, TenLop, MaGV, NamHoc)
+VALUES
+    (1, 'Lớp 1A', 1, '2022-2023'),
+    (2, 'Lớp 1B', 2, '2022-2023'),
+    (3, 'Lớp 2A', 3, '2022-2023'),
+    (4, 'Lớp 2B', 4, '2022-2023'),
+    (5, 'Lớp 3A', 5, '2022-2023'),
+    (6, 'Lớp 3B', 6, '2022-2023'),
+    (7, 'Lớp 4A', 7, '2022-2023'),
+    (8, 'Lớp 4B', 8, '2022-2023'),
+    (9, 'Lớp 5A', 9, '2022-2023'),
+    (10, 'Lớp 5B', 10, '2022-2023');
+
+-- Chèn dữ liệu vào bảng HocSinh
+INSERT INTO HocSinh (MaHS, Ho, Ten, GioiTinh, NgaySinh, MaLop)
+VALUES
+(1, 'Phạm Thị', ' Hà', 'Nữ','2006-01-02', 1),
+(2, 'Nguyễn Văn', ' Ba', 'Nam', '2006-02-03', 2),
+(3, 'Trần Thị', ' Cà', 'Nữ', '2005-03-04', 3),
+(4, 'Lê Quang', ' Đạt', 'Nam', '2006-04-05', 4),
+(5, 'Phạm Thị', ' Em', 'Nữ', '2006-05-06', 5),
+(6, 'Vũ Thị', ' Nhi', 'Nữ', '2007-06-07', 6),
+(7, 'Nguyễn Văn', ' Đạt', 'Nam', '2007-07-08', 7),
+(8, 'Trần Thị', ' Hạnh', 'Nữ', '2005-08-09', 8),
+(9, 'Lê Quốc', ' Hải', 'Nam', '2006-09-10', 9),
+(10, 'Phạm Hồng', ' Khang', 'Nam', '2007-10-11', 10);
+
+-- Chèn dữ liệu vào bảng LoaiDiem
+INSERT INTO LoaiDiem (MaLoaiDiem, Ten, HeSo, MoTa)
+VALUES
+(1, 'Điểm miệng', 1, 'Điểm kiểm tra của giáo viên'),
+(2, 'Điểm 15 phút', 1, 'Điểm kiểm tra của giáo viên'),
+(3, 'Điểm 1 tiết', 2, 'Điểm kiểm tra của giáo viên'),
+(4, 'Điểm Cuối kỳ', 3, 'Điểm kiểm tra cuối kỳ');
+
+-- Chèn dữ liệu vào bảng Mon
+INSERT INTO Mon (MaMon, TenMon)
+VALUES
+(1, 'Toán'),
+(2, 'Văn'),
+(3, 'Anh'),
+(4, 'Lý'),
+(5, 'Hóa'),
+(6, 'Sử'),
+(7, 'Địa'),
+(8, 'GDCD'),
+(9, 'Công nghệ'),
+(10, 'Tin học');
+
+-- Chèn dữ liệu vào bảng Diem
+INSERT INTO Diem (MaDiem, DiemSo, MaHS, MaMon, MaLoaiDiem)
+VALUES
+(1, 9.0, 1, 1, 1),
+(2, 8.5, 5, 2, 1),
+(3, 9.5, 1, 3, 1),
+(4, 7.0, 6, 4, 1),
+(5, 8.0, 1, 5, 1),
+(6, 9.0, 2, 1, 1),
+(7, 8.5, 2, 2, 1),
+(8, 9.5, 7, 3, 1),
+(9, 7.0, 2, 4, 1),
+(10, 8.0, 2, 5, 1),
+(11, 9.0, 8, 1, 1),
+(12, 8.5, 3, 2, 1),
+(13, 9.5, 3, 3, 1),
+(14, 7.0, 3, 4, 1),
+(15, 8.0, 9, 5, 1),
+(16, 9.0, 4, 1, 1),
+(17, 8.5, 4, 2, 1),
+(18, 9.5, 10, 3, 1),
+(19, 7.0, 10, 4, 1),
+(20, 8.0, 4, 5, 1);
